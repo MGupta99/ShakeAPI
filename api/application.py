@@ -1,7 +1,7 @@
 #!flask/bin/python
 import json
 from flask import Flask, Response
-from helloworld.flaskrun import flaskrun
+from api.flaskrun import flaskrun
 
 application = Flask(__name__)
 

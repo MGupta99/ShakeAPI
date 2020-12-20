@@ -1,3 +1,5 @@
 cd /home/ec2-user/python-flask-service/
 source environment/bin/activate
 /usr/local/bin/supervisord -c scripts/supervisord.conf
+sudo chmod 777 /var/run/supervisor.sock
+sudo systemctl reload httpd

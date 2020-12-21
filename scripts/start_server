@@ -1,7 +1,7 @@
 cd /home/ec2-user/python-flask-service/
 source environment/bin/activate
 /usr/local/bin/supervisord -c scripts/supervisord.conf
-until [ -f /var/www/flaskapi.sock ]
+until [ -S /var/www/flaskapi.sock ]
 do
      sleep 1
 done

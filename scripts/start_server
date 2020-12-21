@@ -1,4 +1,9 @@
 cd /home/ec2-user/python-flask-service/
 source environment/bin/activate
 /usr/local/bin/supervisord -c scripts/supervisord.conf
+until [ -f /var/www/flaskapi.sock ]
+do
+     sleep 1
+done
+sudo chown 777 /var/www/flaskapi.sock
 sudo systemctl reload httpd

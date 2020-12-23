@@ -5,8 +5,10 @@ from flask import Flask, Response
 import pymongo
 
 from app.flaskrun import flaskrun
+from app.api.auth import auth
 
 application = Flask(__name__)
+application.register_blueprint(auth, url_prefix='api')
 
 @application.route('/', methods=['GET'])
 def get():

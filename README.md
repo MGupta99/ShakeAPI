@@ -20,7 +20,7 @@ This sample includes:
   your application will be packaged and installed
 * scripts/ - this directory contains scripts used by AWS CodeDeploy when
   installing and deploying your application on the Amazon EC2 instance
-* api/ - this directory contains the Python source code for your Flask application
+* app/ - this directory contains the Python source code for your Flask application
 * tests/ - this directory contains unit tests for your application
 * template.yml - this file contains the description of AWS resources used by AWS
   CloudFormation to deploy your infrastructure
@@ -58,7 +58,7 @@ local computer. If you haven't, do that first. You can find instructions in the 
 
 5. Start the Flask development server:
 
-        $ python api/application.py --port 8000
+        $ python app/application.py --port 8000
 
 6. Open http://127.0.0.1:8000/ in a web browser to view the output of your
    service.

@@ -2,6 +2,6 @@ from flask import Blueprint
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/')
-def tester():
+@auth.route('/apple/register')
+def apple_register():
     return 'Hello'

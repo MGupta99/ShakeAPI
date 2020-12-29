@@ -87,5 +87,5 @@ def verify_auth_code(auth_code):
 
     resp_data = resp.json()
 
-    print(resp_data['id_token'])
+    print(resp_data['refresh_token'])
     return resp_data['refresh_token'], None

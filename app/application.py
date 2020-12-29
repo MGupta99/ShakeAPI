@@ -6,9 +6,11 @@ import pymongo
 
 from app.flaskrun import flaskrun
 from app.api.auth import auth
+from app.config import config
 
 application = Flask(__name__)
 application.register_blueprint(auth, url_prefix='/api/auth')
+application.config.update(config)
 
 @application.route('/', methods=['GET'])
 def get():

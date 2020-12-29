@@ -45,6 +45,7 @@ def validate_id_token(identity_token):
     return True
 
 def verify_auth_code(auth_code):
+    auth_code = base64.b64decode(auth_code)
     headers = {
         'kid': current_app.config['SHAKE_KID'],
         'alg': 'ES256'

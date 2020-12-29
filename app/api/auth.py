@@ -6,10 +6,15 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/apple/register', methods=['POST'])
 def apple_register():
-    if not verify_apple_token(request.get_json()):
-        abort(401)
+    request_body = request.get_json(silent=True)
+    if request_body is None:
+        return abort(400)
 
-    return 'Hello'
+    refresh_token, error = validate_user(request_body)
+    if error is not None:
+        return abort(error)
+
+    
 
 @auth.route('/apple/login', methods=['POST'])
 def apple_login():

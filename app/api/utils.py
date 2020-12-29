@@ -10,10 +10,16 @@ from jwt import PyJWKClient, exceptions
 from flask import current_app
 
 def validate_user(authRequest):
-    if not validate_id_token(authRequest['identityToken']):
-        return {}
+    id_token = authRequest.get('identityToken')
+    if id_token is None: return {}, 400
 
-    return verify
+    if not validate_id_token(id_token):
+        return {}, 401
+
+    auth_code = authRequest.get('authorizationCode')
+    if auth_code is None: return {}, 400
+    
+    return verify_auth_code(authRequest['authorizationCode'])
 
 def validate_id_token(identity_token):
     identity_token = base64.b64decode(identity_token)
@@ -75,9 +81,9 @@ def verify_auth_code(auth_code):
     )
 
     if resp.status_code != 200:
-        return {}
+        return {}, 403
 
     resp_data = resp.json()
 
     print(resp_data['id_token'])
-    return resp_data['refresh_token']
+    return resp_data['refresh_token'], None

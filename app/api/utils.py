@@ -81,7 +81,7 @@ def verify_auth_code(auth_code):
     )
 
     if resp.status_code != 200:
-        print(resp.get_json())
+        print(resp.json())
         return {}, 403
 
     resp_data = resp.json()

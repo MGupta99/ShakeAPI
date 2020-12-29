@@ -7,8 +7,7 @@ import requests
 
 import jwt
 from jwt import PyJWKClient, exceptions
-
-from app.application import application
+from flask import current_app
 
 def validate_user(authRequest):
     if not validate_id_token(authRequest['identityToken']):
@@ -26,7 +25,7 @@ def validate_id_token(identity_token):
             identity_token,
             signing_key.key,
             algorithms=['RS256'],
-            audience=application.config['BUNDLE_ID'],
+            audience=current_app.config['BUNDLE_ID'],
             issuer='https://appleid.apple.com',
             options={
                 'verify_aud': True,
@@ -41,19 +40,19 @@ def validate_id_token(identity_token):
 
 def verify_auth_code(auth_code):
     headers = {
-        'kid': application.config['SHAKE_KID'],
+        'kid': current_app.config['SHAKE_KID'],
         'alg': 'ES256'
     }
 
     payload = {
-        'iss': application.config['TEAM_ID'],
+        'iss': current_app.config['TEAM_ID'],
         'iat': time.time(),
         'exp': time.time() + timedelta(days=180).total_seconds(),
         'aud': 'https://appleid.apple.com',
-        'sub': application.config['BUNDLE_ID']
+        'sub': current_app.config['BUNDLE_ID']
     }
 
-    private_key = open(os.path.expanduser(application.config['PRIVATE_KEY'])).read()
+    private_key = open(os.path.expanduser(current_app.config['PRIVATE_KEY'])).read()
 
     client_secret = jwt.encode(
         payload,
@@ -65,7 +64,7 @@ def verify_auth_code(auth_code):
     resp = requests.post(
         'https://appleid.apple.com/auth/token',
         data={
-            'client_id': application.config['BUNDLE_ID'],
+            'client_id': current_app.config['BUNDLE_ID'],
             'client_secret': client_secret,
             'code': auth_code,
             'grant_type': 'authorization_code',

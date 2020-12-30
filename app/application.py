@@ -4,8 +4,7 @@ import json
 from flask import Response
 
 from app.flaskrun import flaskrun
-from app import application
-
+from app import application, db
 
 @application.route('/', methods=['GET'])
 def get():

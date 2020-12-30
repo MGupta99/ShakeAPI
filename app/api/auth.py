@@ -16,7 +16,7 @@ def apple_register():
     if error is not None:
         return abort(error)
 
-    user = request_body['id']
+    user = request_body['user']
     api_key = secrets.token_hex(32)
     g.db.accounts.update_one(
         {'_id': user['id']},

@@ -3,7 +3,7 @@ import secrets
 from flask import Blueprint, request, abort, jsonify
 
 from app.api.utils import validate_user
-from app.application import db
+from app import db
 
 auth = Blueprint('auth', __name__)
 
@@ -37,5 +37,15 @@ def apple_register():
 
 @auth.route('/apple/login', methods=['POST'])
 def apple_login():
-    print(request.get_json())
-    return 'Hello'
+    request_body = request.get_json(silent=True)
+    if request_body is None:
+        return abort(400)
+
+    refresh_token, error = validate_user(request_body)
+    if error is not None:
+        return abort(error)
+
+    user_id = request_body['user']
+    user = accounts.find_one({'_id': user_id}, projection=['api_key'])
+
+    return jsonify(user) if user is not None else abort(404)

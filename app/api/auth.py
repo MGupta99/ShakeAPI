@@ -3,7 +3,6 @@ import secrets
 from flask import Blueprint, request, abort, jsonify, g
 
 from app.api.utils import validate_user
-from app import db
 
 auth = Blueprint('auth', __name__)
 

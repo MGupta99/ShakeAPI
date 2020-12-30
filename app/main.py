@@ -1,7 +1,7 @@
 #!flask/bin/python
 import json
 
-from flask import Response, g
+from flask import Response, g, Blueprint
 
 from app.flaskrun import flaskrun
 

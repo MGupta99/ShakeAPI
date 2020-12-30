@@ -6,8 +6,6 @@ from app.api.utils import validate_user
 
 auth = Blueprint('auth', __name__)
 
-accounts = g.db.Accounts
-
 @auth.route('/apple/register', methods=['POST'])
 def apple_register():
     request_body = request.get_json(silent=True)
@@ -20,7 +18,7 @@ def apple_register():
 
     user = request_body['user']
     api_key = secrets.token_hex(32)
-    accounts.update_one(
+    g.db.accounts.update_one(
         {'_id': user['id']},
         {
             'email': user['email'],
@@ -45,6 +43,6 @@ def apple_login():
         return abort(error)
 
     user_id = request_body['user']
-    user = accounts.find_one({'_id': user_id}, projection=['api_key'])
+    user = g.db.accounts.find_one({'_id': user_id}, projection=['api_key'])
 
     return jsonify(user) if user is not None else abort(404)

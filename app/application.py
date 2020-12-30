@@ -12,6 +12,11 @@ application = Flask(__name__)
 application.register_blueprint(auth, url_prefix='/api/auth')
 application.config.update(config)
 
+
+client = pymongo.MongoClient(application.config['MONGO_CONNECTION'])
+db = client.ShakeDev
+
+
 @application.route('/', methods=['GET'])
 def get():
     return Response(json.dumps({'Output': 'Hello World'}), mimetype='application/json', status=200)

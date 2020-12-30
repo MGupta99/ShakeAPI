@@ -16,7 +16,7 @@ def apple_register():
     if error is not None:
         return abort(error)
 
-    user = request_body['user']
+    user = request_body['id']
     api_key = secrets.token_hex(32)
     g.db.accounts.update_one(
         {'_id': user['id']},
@@ -42,7 +42,7 @@ def apple_login():
     if error is not None:
         return abort(error)
 
-    user_id = request_body['user']
+    user_id = request_body['id']
     user = g.db.accounts.find_one({'_id': user_id}, projection=['api_key'])
 
     return jsonify(user) if user is not None else abort(404)

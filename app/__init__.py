@@ -6,7 +6,9 @@ from app.config import config
 
 application = Flask(__name__)
 application.config.update(config)
-application.register_blueprint(auth, url_prefix='/api/auth')
+
+with application.app_context():
+    application.register_blueprint(auth, url_prefix='/api/auth')
 
 client = pymongo.MongoClient(application.config['MONGO_CONNECTION'])
 g.db = client.ShakeDev

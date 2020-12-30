@@ -1,6 +1,6 @@
 import json
 import pytest
-from app.application import application
+from app import application
 
 
 @pytest.fixture

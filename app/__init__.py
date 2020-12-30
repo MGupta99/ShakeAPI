@@ -1,5 +1,5 @@
 import pymongo
-from flask import Flask
+from flask import Flask, g
 
 from app.api.auth import auth
 from app.config import config
@@ -9,4 +9,4 @@ application.config.update(config)
 application.register_blueprint(auth, url_prefix='/api/auth')
 
 client = pymongo.MongoClient(application.config['MONGO_CONNECTION'])
-db = client.ShakeDev
+g.db = client.ShakeDev

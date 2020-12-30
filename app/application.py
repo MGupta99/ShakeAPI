@@ -1,10 +1,10 @@
 #!flask/bin/python
 import json
 
-from flask import Response
+from flask import Response, g
 
 from app.flaskrun import flaskrun
-from app import application, db
+from app import application
 
 @application.route('/', methods=['GET'])
 def get():

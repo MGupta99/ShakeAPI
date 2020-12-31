@@ -10,6 +10,7 @@ auth.before_request(get_db)
 @auth.route('/apple/register', methods=['POST'])
 def apple_register():
     request_body = request.get_json(silent=True)
+    print(request_body)
     if request_body is None:
         return abort(400)
 

@@ -8,6 +8,7 @@ import requests
 import jwt
 from jwt import PyJWKClient, exceptions
 from flask import current_app, g
+import pymongo
 
 def validate_user(authRequest):
     id_token = authRequest.get('identityToken')

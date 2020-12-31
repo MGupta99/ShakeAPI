@@ -21,7 +21,7 @@ def apple_register():
 
     user = json.loads(base64.b64decode(request_body['user']))
     api_key = secrets.token_hex(32)
-    g.db.accounts.update_one(
+    g.db.Accounts.update_one(
         {'_id': user['id']},
         {'$set': {
             'email': user['email'],
@@ -46,6 +46,6 @@ def apple_login():
         return abort(error)
 
     user_id = request_body['id']
-    user = g.db.accounts.find_one({'_id': user_id}, projection=['api_key'])
+    user = g.db.Accounts.find_one({'_id': user_id}, projection=['api_key'])
 
     return jsonify(user) if user is not None else abort(404)

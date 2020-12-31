@@ -11,7 +11,11 @@ application.config.update(config)
 application.register_blueprint(main)
 application.register_blueprint(auth, url_prefix='/api/auth')
 
-client = pymongo.MongoClient(application.config['MONGO_CONNECTION'])
+@application.before_request
+def get_db():
+    g.client = pymongo.MongoClient(application.config['MONGO_CONNECTION'])
+    g.db = g.client.ShakeDev
 
-with application.app_context():
-    g.db = client.ShakeDev
+@application.after_request
+def close_db():
+    g.client.close()

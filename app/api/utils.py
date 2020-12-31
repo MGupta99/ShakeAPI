@@ -89,3 +89,7 @@ def verify_auth_code(auth_code):
 
     print(resp_data['refresh_token'])
     return resp_data['refresh_token'], None
+
+def get_db():
+    g.client = pymongo.MongoClient(application.config['MONGO_CONNECTION'])
+    g.db = g.client.ShakeDev

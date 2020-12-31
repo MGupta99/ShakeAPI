@@ -2,9 +2,10 @@ import secrets
 
 from flask import Blueprint, request, abort, jsonify, g
 
-from app.api.utils import validate_user
+from app.api.utils import validate_user, get_db
 
 auth = Blueprint('auth', __name__)
+auth.before_request(get_db)
 
 @auth.route('/apple/register', methods=['POST'])
 def apple_register():

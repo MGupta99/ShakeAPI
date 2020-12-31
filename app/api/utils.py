@@ -87,8 +87,6 @@ def verify_auth_code(auth_code):
         return {}, 403
 
     resp_data = resp.json()
-
-    print(resp_data['refresh_token'])
     return resp_data['refresh_token'], None
 
 def get_db():

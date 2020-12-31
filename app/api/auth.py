@@ -1,3 +1,5 @@
+import json
+import base64
 import secrets
 
 from flask import Blueprint, request, abort, jsonify, g
@@ -10,7 +12,6 @@ auth.before_request(get_db)
 @auth.route('/apple/register', methods=['POST'])
 def apple_register():
     request_body = request.get_json(silent=True)
-    print(request_body)
     if request_body is None:
         return abort(400)
 
@@ -18,7 +19,7 @@ def apple_register():
     if error is not None:
         return abort(error)
 
-    user = request_body['user']
+    user = json.loads(base64.b64decode(request_body['user']))
     api_key = secrets.token_hex(32)
     g.db.accounts.update_one(
         {'_id': user['id']},

@@ -38,6 +38,7 @@ def apple_register():
 @auth.route('/apple/login', methods=['POST'])
 def apple_login():
     request_body = request.get_json(silent=True)
+    print(request_body)
     if request_body is None:
         return abort(400)
 

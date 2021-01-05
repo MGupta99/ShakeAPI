@@ -1,3 +1,4 @@
+import sys
 import json
 import base64
 import secrets
@@ -13,13 +14,14 @@ auth.before_request(get_db)
 def apple_register():
     request_body = request.get_json(silent=True)
     if request_body is None:
+        print('Unable to parse JSON from request', file=sys.stderr)
         return abort(400)
 
     refresh_token, error = validate_user(request_body)
     if error is not None:
         return abort(error)
 
-    user = json.loads(base64.b64decode(request_body['user']))
+    user = request_body['user']
     api_key = secrets.token_hex(32)
     g.db.Accounts.update_one(
         {'_id': user['id']},
@@ -32,7 +34,7 @@ def apple_register():
         upsert=True
     )
 
-    return jsonify({'id': user['id'], 'api_key': api_key})
+    return jsonify({'_id': user['id'], 'api_key': api_key})
 
 
 @auth.route('/apple/login', methods=['POST'])

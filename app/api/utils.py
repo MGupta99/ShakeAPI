@@ -1,4 +1,5 @@
 import os
+import sys
 import base64
 import time
 import datetime
@@ -12,13 +13,18 @@ import pymongo
 
 def validate_user(authRequest):
     id_token = authRequest.get('identityToken')
-    if id_token is None: return {}, 400
+    if id_token is None:
+        print('Failed to find identityToken', file=sys.stderr)
+        return {}, 400
 
     if not validate_id_token(id_token):
+        print('invalid identityToken', file=sys.stderr)
         return {}, 401
 
     auth_code = authRequest.get('authorizationCode')
-    if auth_code is None: return {}, 400
+    if auth_code is None:
+        print('Failed to find authorizationCode', file=sys.stderr)
+        return {}, 400
 
     return verify_auth_code(authRequest['authorizationCode'])
 
@@ -83,7 +89,7 @@ def verify_auth_code(auth_code):
     )
 
     if resp.status_code != 200:
-        print(resp.json())
+        print('Unable to verify authorizationCode', file=sys.stderr)
         return {}, 403
 
     resp_data = resp.json()

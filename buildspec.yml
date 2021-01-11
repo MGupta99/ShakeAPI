@@ -11,7 +11,6 @@ env:
     MONGO_CONNECTION: "mongodb+srv://MGupta99:M012599g!@shakedb.ms8n7.mongodb.net/ShakeDev?retryWrites=true&w=majority"
     TWILIO_SID: "ACd0708ebd306efd2feaee45f86f0b4426"
     TWILIO_AUTH_TOKEN: "0e35d8051dfa1070cbd45df47327d866"
-  exported-variables:
 
 phases:
   install:

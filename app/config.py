@@ -1,9 +1,11 @@
+import os
+
 config = {
-    'BUNDLE_ID': 'com.milangupta.Shake',
-    'SHAKE_KID': 'P7UP65TG8R',
-    'PRIVATE_KEY': '~/.ssh/shake/AuthKey_P7UP65TG8R.p8',
-    'TEAM_ID': 'HB5RW24Z85',
-    'MONGO_CONNECTION': 'mongodb+srv://MGupta99:M012599g!@shakedb.ms8n7.mongodb.net/ShakeDev?retryWrites=true&w=majority'
-    'TWILIO_SID': 'ACd0708ebd306efd2feaee45f86f0b4426'
-    'TWILIO_AUTH_TOKEN': '5eb31798962d90b05d5ab74ee1bbee60'
+    'BUNDLE_ID': os.environ['BUNDLE_ID'],
+    'SHAKE_KID': os.environ['SHAKE_KID'],
+    'PRIVATE_KEY': os.environ['PRIVATE_KEY'],
+    'TEAM_ID': os.environ['TEAM_ID'],
+    'MONGO_CONNECTION': os.environ['MONGO_CONNECTION'],
+    'TWILIO_SID': os.environ['TWILIO_SID'],
+    'TWILIO_AUTH_TOKEN': os.environ['TWILIO_AUTH_TOKEN']
 }

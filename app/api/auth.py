@@ -64,8 +64,8 @@ def send_otp():
 
     otp = str(secrets.randbelow(1000000)).zfill(6)
     message = client.messages.create(
-        body=f'Your Shake code is {otp}'
-        from_='+18589433121'
+        body=f'Your Shake code is {otp}',
+        from_='+18589433121',
         to=request_body['phoneNumber']
     )
 

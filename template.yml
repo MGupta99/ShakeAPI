@@ -70,6 +70,9 @@ Resources:
             mkdir -p /var/awslogs/etc/config
             cp codedeploy_logs.conf /var/awslogs/etc/config/
             sed -i 's/us-east-1/${AWS::Region}/g' /etc/awslogs/awscli.conf
+
+            # Setup environment
+            source /home/ec2-user/.bash_profile
             # Start the service logs
             service awslogs start
     Type: AWS::EC2::Instance

@@ -26,7 +26,6 @@ def apple_register():
     user = request_body['user']
     api_key = secrets.token_hex(32)
     g.db.Accounts.update_one(
-    g.db.Accounts.update_one(
         {'_id': user['id']},
         {'$set': {
             'name': user['name'],

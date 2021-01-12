@@ -1,4 +1,4 @@
-source ~/.bash_profile
+source /home/ec2-user/.bash_profile
 cd /home/ec2-user/python-flask-service/
 source environment/bin/activate
 /usr/local/bin/supervisord -c scripts/supervisord.conf

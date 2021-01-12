@@ -1,9 +1,10 @@
 import sys
+import os
 import json
 import base64
 import secrets
 
-from flask import Blueprint, request, abort, jsonify, g, current_app
+from flask import Blueprint, request, abort, jsonify, g
 from twilio.rest import Client
 
 from app.api.utils import validate_user, get_db
@@ -24,6 +25,7 @@ def apple_register():
 
     user = request_body['user']
     api_key = secrets.token_hex(32)
+    g.db.Accounts.update_one(
     g.db.Accounts.update_one(
         {'_id': user['id']},
         {'$set': {
@@ -60,7 +62,7 @@ def send_otp():
         print('Unable to parse JSON from request', file=sys.stderr)
         return abort(400)
 
-    client = Client(current_app.config['TWILIO_SID'], current_app.config['TWILIO_AUTH_TOKEN'])
+    client = Client(os.environ['TWILIO_SID'], os.environ['TWILIO_AUTH_TOKEN'])
 
     otp = str(secrets.randbelow(1000000)).zfill(6)
     message = client.messages.create(

@@ -8,7 +8,7 @@ import requests
 
 import jwt
 from jwt import PyJWKClient, exceptions
-from flask import current_app, g
+from flask import g
 import pymongo
 
 def validate_user(authRequest):
@@ -38,7 +38,7 @@ def validate_id_token(identity_token):
             identity_token,
             signing_key.key,
             algorithms=['RS256'],
-            audience=current_app.config['BUNDLE_ID'],
+            audience=os.environ['BUNDLE_ID'],
             issuer='https://appleid.apple.com',
             options={
                 'verify_aud': True,
@@ -54,19 +54,19 @@ def validate_id_token(identity_token):
 def verify_auth_code(auth_code):
     auth_code = base64.b64decode(auth_code)
     headers = {
-        'kid': current_app.config['SHAKE_KID'],
+        'kid': os.environ['SHAKE_KID'],
         'alg': 'ES256'
     }
 
     payload = {
-        'iss': current_app.config['TEAM_ID'],
+        'iss': os.environ['TEAM_ID'],
         'iat': time.time(),
         'exp': time.time() + timedelta(days=180).total_seconds(),
         'aud': 'https://appleid.apple.com',
-        'sub': current_app.config['BUNDLE_ID']
+        'sub': os.environ['BUNDLE_ID']
     }
 
-    private_key = open(os.path.expanduser(current_app.config['PRIVATE_KEY'])).read()
+    private_key = open(os.path.expanduser(os.environ['PRIVATE_KEY'])).read()
 
     client_secret = jwt.encode(
         payload,
@@ -78,7 +78,7 @@ def verify_auth_code(auth_code):
     resp = requests.post(
         'https://appleid.apple.com/auth/token',
         data={
-            'client_id': current_app.config['BUNDLE_ID'],
+            'client_id': os.environ['BUNDLE_ID'],
             'client_secret': client_secret,
             'code': auth_code,
             'grant_type': 'authorization_code',
@@ -96,5 +96,5 @@ def verify_auth_code(auth_code):
     return resp_data['refresh_token'], None
 
 def get_db():
-    g.client = pymongo.MongoClient(current_app.config['MONGO_CONNECTION'])
+    g.client = pymongo.MongoClient(os.environ['MONGO_CONNECTION'])
     g.db = g.client.ShakeDev

@@ -78,7 +78,7 @@ def send_otp():
             'expires': datetime.datetime.utcnow() + timedelta(minutes=5),
         }},
         upsert=True
-    })
+    )
 
     return jsonify({}), 200
 

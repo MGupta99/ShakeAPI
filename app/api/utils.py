@@ -13,18 +13,12 @@ import pymongo
 
 def validate_user(authRequest):
     id_token = authRequest.get('identityToken')
-    if id_token is None:
-        print('Failed to find identityToken', file=sys.stderr)
-        return {}, 400
 
     if not validate_id_token(id_token):
         print('invalid identityToken', file=sys.stderr)
         return {}, 401
 
     auth_code = authRequest.get('authorizationCode')
-    if auth_code is None:
-        print('Failed to find authorizationCode', file=sys.stderr)
-        return {}, 400
 
     return verify_auth_code(authRequest['authorizationCode'])
 

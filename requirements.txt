@@ -9,3 +9,4 @@ requests==2.25.1
 cryptography==3.3.1
 dnspython==2.0.0
 twilio==6.50.1
+bcrypt==3.2.0

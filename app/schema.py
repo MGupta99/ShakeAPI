@@ -41,9 +41,9 @@ schema = {
     "/password/login": {
         "type": "object",
         "properties": {
-            "id": {"type": "string"},
+            "phone": {"type": "string"},
             "password": {"type": "string"}
         },
-        "required": ["id", "password"]
+        "required": ["password"]
     }
 }

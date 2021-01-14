@@ -117,7 +117,7 @@ def password_register():
 def password_login():
     request_body = request.get_json()
 
-    user = g.db.Accounts.find_one({'_id': request_body['id']}, projection=['password', 'api_key'])
+    user = g.db.Accounts.find_one({'phone_number': request_body['phone']}, projection=['password', 'api_key'])
     if not bcrypt.checkpw(request_body['password'].encode(), user['password']):
         return abort(401)
 

@@ -107,7 +107,7 @@ def password_register():
         '_id': id,
         'api_key': api_key,
         'phone_number': request_body['phoneNumber'].strip(),
-        'email': request_body['email'].strip(),
+        'email': request_body['email'].strip().lower(),
         'name': request_body['name'],
         'password': bcrypt.hashpw(request_body['password'].encode(), bcrypt.gensalt()),
     })
@@ -119,7 +119,7 @@ def password_register():
 def password_login():
     request_body = request.get_json()
 
-    user = g.db.Accounts.find_one({'email': request_body['email']}, projection=['password', 'api_key'])
+    user = g.db.Accounts.find_one({'email': request_body['email'].strip().lower()}, projection=['password', 'api_key'])
     if not bcrypt.checkpw(request_body['password'].encode(), user['password']):
         return abort(401)
 

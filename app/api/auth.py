@@ -92,7 +92,7 @@ def password_register():
         return jsonify({'error_code': 'AlreadyExists'}), 409
 
     otp = g.db.OTP.find_one({
-        'email': request_body['email'],
+        'phone_number': request_body['phoneNumber'],
     })
 
     if datetime.datetime.utcnow() > otp['expires']:

@@ -31,19 +31,20 @@ schema = {
         "type": "object",
         "properties": {
             "phoneNumber": {"type": "string"},
+            "email": {"type": "string"},
             "code": {"type": "string"},
             "name": {"type": "object"},
             "password": {"type": "string"}
         },
-        "required": ["phoneNumber", "code", "name", "password"]
+        "required": ["phoneNumber", "email", "code", "name", "password"]
     },
 
     "/password/login": {
         "type": "object",
         "properties": {
-            "phone": {"type": "string"},
+            "email": {"type": "string"},
             "password": {"type": "string"}
         },
-        "required": ["password"]
+        "required": ["email", "password"]
     }
 }

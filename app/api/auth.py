@@ -33,6 +33,7 @@ def apple_register():
         {'_id': user['id']},
         {'$set': {
             'name': user['name'],
+            'email': user['email'],
             'refresh_token': refresh_token,
             'api_key': api_key
         }},
@@ -87,11 +88,11 @@ def send_otp():
 def password_register():
     request_body = request.get_json()
 
-    if g.db.Accounts.find_one({'phone_number': request_body['phoneNumber']}) is not None:
+    if g.db.Accounts.find_one({'email': request_body['email']}) is not None:
         return jsonify({'error_code': 'AlreadyExists'}), 409
 
     otp = g.db.OTP.find_one({
-        'phone_number': request_body['phoneNumber'],
+        'email': request_body['email'],
     })
 
     if datetime.datetime.utcnow() > otp['expires']:
@@ -105,7 +106,8 @@ def password_register():
     g.db.Accounts.insert_one({
         '_id': id,
         'api_key': api_key,
-        'phone_number': request_body['phoneNumber'],
+        'phone_number': request_body['phoneNumber'].strip(),
+        'email': request_body['email'].strip(),
         'name': request_body['name'],
         'password': bcrypt.hashpw(request_body['password'].encode(), bcrypt.gensalt()),
     })
@@ -117,7 +119,7 @@ def password_register():
 def password_login():
     request_body = request.get_json()
 
-    user = g.db.Accounts.find_one({'phone_number': request_body['phone']}, projection=['password', 'api_key'])
+    user = g.db.Accounts.find_one({'email': request_body['email']}, projection=['password', 'api_key'])
     if not bcrypt.checkpw(request_body['password'].encode(), user['password']):
         return abort(401)
 
